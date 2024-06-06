@@ -1,0 +1,75 @@
+<!-- index.html - a template file on flaskdb -->
+<!-- Copyright (C) 2024 Yasuhiro Hayashi -->
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>maps-flaskdb | Index</title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('views.static', filename='css/flaskdb.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{{ url_for('views.index') }}">maps-flaskdb</a>
+    </div>
+    <div class="navbar-collapse collapse"> 
+      <ul class="nav navbar-nav">
+        {% if not "username" in session %}
+        <li><a href="{{ url_for('views.login') }}">Login</a></li>
+        {% else %}
+        <li><a href="{{ url_for('views.dataset') }}" target="maps">Data Set</a></li>
+        <li><a href="{{ url_for('views.upload') }}" target="maps">Upload Picture</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">City & Place <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ url_for('views.maps', name='newyork') }}" target="maps">New York</a></li>
+            <li><a href="{{ url_for('views.maps', name='london') }}" target="maps">London</a></li>
+            <li><a href="{{ url_for('views.maps', name='tokyo') }}" target="maps">Tokyo</a></li>
+            <li><a href="{{ url_for('views.maps_by_latlng', lat='40.7525351', lng='-73.9927076') }}" target="maps">Empire State Building (40.7525351, -73.9927076)</a></li>
+            <li><a href="{{ url_for('views.maps_by_latlng', lat='51.5007325', lng='-0.1268141', zoom='5') }}" target="maps">Big Ben (51.5007325, -0.1268141)</a></li>
+            <li><a href="{{ url_for('views.maps_by_latlng', lat='35.6809591', lng='139.7673068', zoom='15') }}" target="maps">Tokyo Station (35.6809591, 139.7673068)</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Season <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ url_for('views.maps', name='spring') }}" target="maps">Spring</a></li>
+            <li><a href="{{ url_for('views.maps', name='autumn') }}" target="maps">Autumn</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Search <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ url_for('views.searchspot') }}" target="maps">Search</a></li>
+            <li><a href="{{ url_for('views.searchspot_ga') }}" target="maps">Genetic Algorithm</a></li>
+          </ul>
+        </li>
+        <li><a href="{{ url_for('views.logout') }}">Logout</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="maparea">
+  <iframe src="{{ url_for('views.maps', name='all') }}" name="maps"></iframe>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ bootstrap_find_resource('jquery.js', cdn='jquery') }}"></script>
+<script src="{{ bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap') }}"></script>
+<script src="{{ url_for('views.static', filename='js/flaskdb.js') }}"></script>
+{% endblock %}

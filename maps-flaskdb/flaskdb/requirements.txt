@@ -1,0 +1,17 @@
+# requirements.txt - lists the required python libraries for flaskdb
+# Copyright (C) 2024 Yasuhiro Hayashi
+
+flask>=3.0.2
+psycopg2-binary>=2.9.9
+flask-sqlalchemy>=2.0.29
+flask-bootstrap>=3.3.7.1
+flask_wtf>=1.2.1
+Flask-CacheControl>=0.3.0
+#flask-login
+#flask-mail
+#email-validator
+flask-widgets
+wtforms
+pillow
+folium
+pandas

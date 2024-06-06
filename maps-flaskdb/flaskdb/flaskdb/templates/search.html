@@ -1,0 +1,83 @@
+<!-- search.html - a template file on flaskdb -->
+<!-- Copyright (C) 2024 Yasuhiro Hayashi -->
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>search-flaskdb | Search Spot</title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('views.static', filename='css/flaskdb.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header"><h1>Search Spot</h1></div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}"> {{ message|capitalize }} </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% if form %}
+    {% for field in form.errors %}
+      {% for error in form.errors[field] %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+
+  {% if form %}
+  <form action="{{ url_for('views.searchspot') }}" method="POST" novalidate class="mb-10">
+    <div class="form-group">
+      <label for="spotname">{{ form.spotname.label }}</label>
+      {{ form.spotname(type="text", id="spotname", class="form-control", placeholder="Enter keyword") }}
+    </div>
+    {{ form.csrf_token }}
+    {{ form.cancel(class="btn") }}
+    {{ form.submit(class="btn btn-primary") }}
+  </form>
+  {% endif %}
+
+  {% if spotlist %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">User ID</th>
+        <th scope="col">Area</th>
+        <th scope="col">City Name</th>
+        <th scope="col">Spot Name</th>
+        <th scope="col">Date Time</th>
+        <th scope="col">Latitude</th>
+        <th scope="col">Longitude</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for spot in spotlist %}
+      <tr>
+        <th scope="row">{{ spot.id }}</th>
+        <td>{{ spot.user_id }}</td>
+        <td>{{ spot.area }}</td>
+        <td>{{ spot.cityname }}</td>
+        <td>{% if spot.url %}<a href="{{ spot.url }}" target="new">{{ spot.spotname }}</a>{% endif %}</td>
+        <td>{{ spot.datetime }}</td>
+        <td>{{ spot.latitude }}</td>
+        <td>{{ spot.longitude }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ bootstrap_find_resource('jquery.js', cdn='jquery') }}"></script>
+<script src="{{ bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap') }}"></script>
+<script src="{{ url_for('views.static', filename='js/flaskdb.js') }}"></script>
+{% endblock %}

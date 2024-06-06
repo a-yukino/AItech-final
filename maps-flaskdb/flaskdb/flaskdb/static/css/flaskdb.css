@@ -1,0 +1,18 @@
+/* flaskdb.css - defines decoration ways for flaskdb templates by CSS. Modify this if you need. */
+/* Copyright (C) 2024 Yasuhiro Hayashi */
+
+.navbar {
+  margin: 0;
+}
+
+.maparea {
+  margin: 0;
+  padding: 0;
+}
+
+iframe {
+  position: absolute;
+  border: 0;
+  width: 100%;
+  height: calc(100% - 52px);
+}
