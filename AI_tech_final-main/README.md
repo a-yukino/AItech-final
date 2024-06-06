@@ -1,1 +1,0 @@
-# AI_tech_final
